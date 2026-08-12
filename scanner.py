@@ -32,3 +32,21 @@ contours = sorted(
     key=cv2.contourArea,
     reverse=True
 )
+
+# Find the document
+
+document_contour = None
+
+for contour in contours:
+    perimeter = cv2.arcLength(contour, True)
+
+    approximation = cv2.approxPolyDP(
+        contour,
+        0.02 * perimeter,
+        True
+    )
+
+    if len(approximation) == 4:
+        document_contour = approximation
+        break
+
