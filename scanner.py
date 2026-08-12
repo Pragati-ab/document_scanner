@@ -19,3 +19,16 @@ cv2.imshow("Edges", edges)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
+
+# Contour 
+contours, _ = cv2.findContours(
+    edges,
+    cv2.RETR_LIST,
+    cv2.CHAIN_APPROX_SIMPLE
+)
+
+contours = sorted(
+    contours,
+    key=cv2.contourArea,
+    reverse=True
+)
