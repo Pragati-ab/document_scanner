@@ -50,3 +50,38 @@ for contour in contours:
         document_contour = approximation
         break
 
+
+result = image.copy()
+
+cv2.drawContours(
+    result,
+    [document_contour],
+    -1,
+    (0, 255, 0),
+    3
+)
+
+cv2.imshow("Document", result)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+# Order the four points
+
+def order_points(points):
+    points = points.reshape(4, 2)
+
+    ordered = np.zeros((4, 2), dtype=np.float32)
+
+    s = points.sum(axis=1)
+
+    ordered[0] = points[np.argmin(s)]   # top-left
+    ordered[2] = points[np.argmax(s)]   # bottom-right
+
+    diff = np.diff(points, axis=1)
+
+    ordered[1] = points[np.argmin(diff)]  # top-right
+    ordered[3] = points[np.argmax(diff)]  # bottom-left
+
+    return ordered
