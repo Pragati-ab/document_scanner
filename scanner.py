@@ -85,3 +85,32 @@ def order_points(points):
     ordered[3] = points[np.argmax(diff)]  # bottom-left
 
     return ordered
+
+points = order_points(document_contour)
+
+# Output 
+width = 600
+height = 800
+
+destination = np.array([
+    [0, 0],
+    [width - 1, 0],
+    [width - 1, height - 1],
+    [0, height - 1]
+], dtype=np.float32)
+
+matrix = cv2.getPerspectiveTransform(
+    points,
+    destination
+)
+
+scanned = cv2.warpPerspective(
+    image,
+    matrix,
+    (width, height)
+)
+
+cv2.imshow("Scanned Document", scanned)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
